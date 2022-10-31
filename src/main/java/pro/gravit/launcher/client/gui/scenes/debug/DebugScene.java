@@ -36,6 +36,8 @@ public class DebugScene extends AbstractScene {
 
     @Override
     protected void doInit() {
+        LookupHelper.<Label>lookupIfPossible(layout, "#nickname").ifPresent((e) -> e.setText(application.stateService.getUsername()));
+
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#header", "#exit").ifPresent((b) -> b.setOnAction((e) -> currentStage.close()));
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#header", "#minimize").ifPresent((b) -> b.setOnAction((e) -> currentStage.hide()));
 
