@@ -40,7 +40,11 @@ public class ServerMenuScene extends AbstractScene {
     public void doInit() throws Exception {
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#header", "#exit").ifPresent((b) -> b.setOnAction((e) -> currentStage.close()));
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#header", "#minimize").ifPresent((b) -> b.setOnAction((e) -> currentStage.hide()));
-
+        LookupHelper.<ButtonBase>lookupIfPossible(header, "#deauth").ifPresent(b -> b.setOnAction((e) ->
+                application.messageManager.showApplyDialog(application.getTranslation("runtime.scenes.settings.exitDialog.header"),
+                        application.getTranslation("runtime.scenes.settings.exitDialog.description"), this::userExit
+                        , () -> {
+                        }, true)));
         LookupHelper.lookupIfPossible(layout, "#web").ifPresent((e) -> e.setOnMouseClicked(event ->
                 application.openURL("https://soulder.space/")));
         LookupHelper.lookupIfPossible(layout, "#discord").ifPresent((e) -> e.setOnMouseClicked(event ->

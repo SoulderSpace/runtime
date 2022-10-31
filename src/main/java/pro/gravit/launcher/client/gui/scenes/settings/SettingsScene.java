@@ -114,6 +114,11 @@ public class SettingsScene extends AbstractScene {
             profileSettings.ram = newValue.intValue();
             updateRamLabel();
         });
+        LookupHelper.<ButtonBase>lookupIfPossible(header, "#deauth").ifPresent(b -> b.setOnAction((e) ->
+                application.messageManager.showApplyDialog(application.getTranslation("runtime.scenes.settings.exitDialog.header"),
+                        application.getTranslation("runtime.scenes.settings.exitDialog.description"), this::userExit
+                        , () -> {
+                        }, true)));
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#back").ifPresent(a -> a.setOnAction((e) -> {
             try {
                 profileSettings.apply();

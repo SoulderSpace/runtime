@@ -67,6 +67,11 @@ public class ServerInfoScene extends AbstractScene {
                     }
                 }
         );
+        LookupHelper.<ButtonBase>lookupIfPossible(header, "#deauth").ifPresent(b -> b.setOnAction((e) ->
+                application.messageManager.showApplyDialog(application.getTranslation("runtime.scenes.settings.exitDialog.header"),
+                        application.getTranslation("runtime.scenes.settings.exitDialog.description"), this::userExit
+                        , () -> {
+                        }, true)));
         LookupHelper.<Button>lookup(layout, "#back").setOnAction((e) -> {
             try {
                 switchScene(application.gui.serverMenuScene);
