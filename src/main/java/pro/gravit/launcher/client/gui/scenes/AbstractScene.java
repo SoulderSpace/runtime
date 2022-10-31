@@ -207,7 +207,7 @@ public abstract class AbstractScene extends AbstractVisualComponent {
                     b.getContextMenu().show(b, e.getScreenX(), e.getScreenY());
                 });
             });
-            LookupHelper.<ButtonBase>lookupIfPossible(header, "#controls", "#deauth").ifPresent(b -> b.setOnAction((e) ->
+            LookupHelper.<ButtonBase>lookupIfPossible(header, "#deauth").ifPresent(b -> b.setOnAction((e) ->
                     application.messageManager.showApplyDialog(application.getTranslation("runtime.scenes.settings.exitDialog.header"),
                             application.getTranslation("runtime.scenes.settings.exitDialog.description"), this::userExit
                             , () -> {
