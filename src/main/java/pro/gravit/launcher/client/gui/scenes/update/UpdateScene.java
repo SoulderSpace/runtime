@@ -60,6 +60,7 @@ public class UpdateScene extends AbstractScene {
 //        speedtext = LookupHelper.lookup(layout, "#speed-text");
 //        reload = LookupHelper.lookup(layout, "#reload");
         cancel = LookupHelper.lookup(layout, "#cancel");
+        cancel = LookupHelper.lookup(layout, "#cancel");
 //        volume = LookupHelper.lookup(layout, "#volume");
         logOutput = LookupHelper.lookup(layout, "#outputUpdate");
 //        currentStatus = LookupHelper.lookup(layout, "#headingUpdate");
@@ -67,10 +68,18 @@ public class UpdateScene extends AbstractScene {
 //        LookupHelper.<ButtonBase>lookup(layout, "#reload").setOnAction(
 //                (e) -> reset()
 //        );
+
         downloader = new VisualDownloader(application, progressBar, speed, volume, this::errorHandle, (log) -> {
             contextHelper.runInFxThread(() -> addLog(log));
         });
-
+        LookupHelper.<Button>lookup(layout, "#back").setOnAction((e) -> {
+            try {
+                switchScene(application.gui.serverMenuScene);
+                application.gui.serverMenuScene.reset();
+            } catch (Exception exception) {
+                errorHandle(exception);
+            }
+        });
         LookupHelper.<ButtonBase>lookup(layout, "#cancel").setOnAction(
                 (e) -> {
                     if (downloader.isDownload()) {
