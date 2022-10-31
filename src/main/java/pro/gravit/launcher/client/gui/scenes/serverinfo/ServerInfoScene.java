@@ -62,6 +62,7 @@ public class ServerInfoScene extends AbstractScene {
                         clip.setArcHeight(h.getFitHeight());
                         h.setClip(clip);
                         h.setImage(originalAvatarImage);
+                        LogHelper.warning("Useles");
                     } catch (Throwable e) {
                         LogHelper.warning("Skin head error");
                     }
