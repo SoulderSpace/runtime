@@ -53,17 +53,18 @@ public class UpdateScene extends AbstractScene {
 
     @Override
     protected void doInit() {
+        LookupHelper.lookupIfPossible(layout, "#web").ifPresent((e) -> e.setOnMouseClicked(event ->
+                application.openURL("https://soulder.space/")));
+        LookupHelper.lookupIfPossible(layout, "#discord").ifPresent((e) -> e.setOnMouseClicked(event ->
+                application.openURL("https://discord.gg/P64RFYNzf3")));
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#header", "#exit").ifPresent((b) -> b.setOnAction((e) -> currentStage.close()));
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#header", "#minimize").ifPresent((b) -> b.setOnAction((e) -> currentStage.hide()));
-
         LookupHelper.<Label>lookupIfPossible(layout, "#nickname").ifPresent((e) -> e.setText(application.stateService.getUsername()));
-
         progressBar = LookupHelper.lookup(layout, "#progress");
         //        speed = LookupHelper.lookup(layout, "#speed");
 //        speederr = LookupHelper.lookup(layout, "#speedErr");
 //        speedtext = LookupHelper.lookup(layout, "#speed-text");
 //        reload = LookupHelper.lookup(layout, "#reload");
-        cancel = LookupHelper.lookup(layout, "#cancel");
         cancel = LookupHelper.lookup(layout, "#cancel");
 //        volume = LookupHelper.lookup(layout, "#volume");
         logOutput = LookupHelper.lookup(layout, "#outputUpdate");
@@ -76,19 +77,7 @@ public class UpdateScene extends AbstractScene {
         downloader = new VisualDownloader(application, progressBar, speed, volume, this::errorHandle, (log) -> {
             contextHelper.runInFxThread(() -> addLog(log));
         });
-        LookupHelper.<ImageView>lookupIfPossible(layout, "#avatar").ifPresent(
-                (h) -> {
-                    try {
-                        javafx.scene.shape.Rectangle clip = new javafx.scene.shape.Rectangle(h.getFitWidth(), h.getFitHeight());
-                        clip.setArcWidth(h.getFitWidth());
-                        clip.setArcHeight(h.getFitHeight());
-                        h.setClip(clip);
-                        h.setImage(originalAvatarImage);
-                    } catch (Throwable e) {
-                        LogHelper.warning("Skin head error");
-                    }
-                }
-        );
+
         LookupHelper.<ButtonBase>lookup(layout, "#cancel").setOnAction(
                 (e) -> {
                     if (downloader.isDownload()) {
