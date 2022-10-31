@@ -48,14 +48,8 @@ public class ApplyDialog extends AbstractDialog {
         textDescription = LookupHelper.lookup(layout, "#textDialog");
         textHeader.setText(header);
         textDescription.setText(text);
-        LookupHelper.<Button>lookup(layout, "#close").setOnAction((e) -> {
-            try {
-                close();
-            } catch (Throwable throwable) {
-                errorHandle(throwable);
-            }
-            onClose.run();
-        });
+
+
         LookupHelper.<Button>lookup(layout, "#apply").setOnAction((e) -> {
             try {
                 close();
