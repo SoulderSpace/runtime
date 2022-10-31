@@ -2,6 +2,8 @@ package pro.gravit.launcher.client.gui.scenes.update;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import pro.gravit.launcher.AsyncDownloader;
 import pro.gravit.launcher.client.gui.JavaFXApplication;
@@ -35,6 +37,8 @@ public class UpdateScene extends AbstractScene {
     private Text speed;
     private Label volume;
     private TextArea logOutput;
+    private Image originalAvatarImage;
+    private ImageView avatar;
     private Text currentStatus;
     private Button reload;
     private Button cancel;
@@ -72,14 +76,19 @@ public class UpdateScene extends AbstractScene {
         downloader = new VisualDownloader(application, progressBar, speed, volume, this::errorHandle, (log) -> {
             contextHelper.runInFxThread(() -> addLog(log));
         });
-        LookupHelper.<Button>lookup(layout, "#back").setOnAction((e) -> {
-            try {
-                switchScene(application.gui.serverMenuScene);
-                application.gui.serverMenuScene.reset();
-            } catch (Exception exception) {
-                errorHandle(exception);
-            }
-        });
+        LookupHelper.<ImageView>lookupIfPossible(layout, "#avatar").ifPresent(
+                (h) -> {
+                    try {
+                        javafx.scene.shape.Rectangle clip = new javafx.scene.shape.Rectangle(h.getFitWidth(), h.getFitHeight());
+                        clip.setArcWidth(h.getFitWidth());
+                        clip.setArcHeight(h.getFitHeight());
+                        h.setClip(clip);
+                        h.setImage(originalAvatarImage);
+                    } catch (Throwable e) {
+                        LogHelper.warning("Skin head error");
+                    }
+                }
+        );
         LookupHelper.<ButtonBase>lookup(layout, "#cancel").setOnAction(
                 (e) -> {
                     if (downloader.isDownload()) {
