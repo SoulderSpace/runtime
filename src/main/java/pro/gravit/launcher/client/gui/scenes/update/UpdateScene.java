@@ -32,6 +32,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
+import static pro.gravit.launcher.Launcher.profile;
+
 public class UpdateScene extends AbstractScene {
     private ProgressBar progressBar;
     private Text speed;
@@ -53,6 +55,8 @@ public class UpdateScene extends AbstractScene {
 
     @Override
     protected void doInit() {
+        LookupHelper.<Label>lookupIfPossible(layout, "#serverName").ifPresent((e) -> e.setText(profile.getTitle()));
+
         LookupHelper.lookupIfPossible(layout, "#web").ifPresent((e) -> e.setOnMouseClicked(event ->
                 application.openURL("https://soulder.space/")));
         LookupHelper.lookupIfPossible(layout, "#discord").ifPresent((e) -> e.setOnMouseClicked(event ->
