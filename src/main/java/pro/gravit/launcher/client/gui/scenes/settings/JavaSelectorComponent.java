@@ -13,7 +13,7 @@ import pro.gravit.utils.helper.LogHelper;
 
 public class JavaSelectorComponent {
     private final ComboBox<JavaHelper.JavaVersion> comboBox;
-    // private final Label javaPath;
+    private final Label javaPath;
     private final Label javaError;
     private final RuntimeSettings.ProfileSettingsView profileSettings;
     private final ClientProfile profile;
@@ -22,7 +22,7 @@ public class JavaSelectorComponent {
         comboBox = LookupHelper.lookup(layout, "#javaCombo");
         this.profile = profile;
         comboBox.getItems().clear();
-        // javaPath = LookupHelper.lookup(layout, "#javaPath");
+        javaPath = LookupHelper.lookup(layout, "#javaPath");
         javaError = LookupHelper.lookup(layout, "#javaError");
         this.profileSettings = profileSettings;
         comboBox.setConverter(new JavaVersionConverter(profile));
@@ -48,9 +48,9 @@ public class JavaSelectorComponent {
         comboBox.setOnAction(e -> {
             JavaHelper.JavaVersion version = comboBox.getValue();
             if (version == null) return;
-       //     javaPath.setText(version.jvmDir.toAbsolutePath().toString());
+            javaPath.setText(version.jvmDir.toAbsolutePath().toString());
             LogHelper.info("Select Java %s", version.jvmDir.toAbsolutePath().toString());
-        //    profileSettings.javaPath = javaPath.getText();
+            profileSettings.javaPath = javaPath.getText();
         });
     }
 
